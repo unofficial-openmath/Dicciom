@@ -1,0 +1,3 @@
+[submodule "src/resources/CDs"]
+	path = src/resources/CDs
+	url = https://github.com/openmath/CDs
