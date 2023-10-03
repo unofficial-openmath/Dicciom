@@ -7,11 +7,15 @@
 <a role="link" href="https://github.com/MiguelMJ/openmath-for-python/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-informational?style=for-the-badge"/></a>
 </p>
 
+Dicciom is a CLI application to manage Content Dictionaries (CDs).
+
 ## Installation
 TODO
 
 ## Features
-TODO
+- Keep track of installed CDs.
+- Search engine for CDs and mathematical symbols.
+- Tools to make easier the creation and manipulation of CDs.
 
 ## Contributors
 
