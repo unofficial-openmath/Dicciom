@@ -1,11 +1,12 @@
 from .util import logger
 from .config import loadConfiguration
 from openmath.cd import parser
+import pathlib
 
 def loadCDs():
     config = loadConfiguration()
     cdRepositoryPath = config["cd_repository"]
-    ocdFiles = cdRepositoryPath.rglob("*.ocd")
+    ocdFiles = pathlib.Path(cdRepositoryPath).rglob("*.ocd")
     cds = []
     for filename in ocdFiles:
         with open(filename) as fh:

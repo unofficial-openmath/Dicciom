@@ -1,14 +1,8 @@
 import sys
-from . import *
 from .util import logger
 from .config import loadConfiguration, addConfigurationArguments
+from .cmddecorator import setupSubparser, commandDataDictionary, commandObjectDictionary, importCommands
 from argparse import ArgumentParser
-
-
-commandDictionary = {
-    "list": ListCommand(),
-    "info": InfoCommand(),
-}
 
 argumentParser = ArgumentParser("dicciom")
 addConfigurationArguments(argumentParser)
@@ -18,21 +12,16 @@ commandArgumentSubparser.dest = "command"
 commandArgumentSubparser.metavar = "command"
 commandArgumentSubparser.required = True
 
-for commandName, commandObject in commandDictionary.items():
-    commandObject.prepareArgs(
-        commandArgumentSubparser.add_parser(
-            commandName,
-            help=commandObject.help()
-        )
-    )
+importCommands()
+setupSubparser(commandArgumentSubparser)
 
 argumentsParsed = {
     k:v
     for k,v
     in vars(argumentParser.parse_args()).items()
-    if v is not None
+    if v
 }
 configuration = loadConfiguration(argumentsParsed)
 
-commandDictionary[argumentsParsed["command"]].run(**argumentsParsed)
+commandObjectDictionary[argumentsParsed["command"]].run(**argumentsParsed)
 
