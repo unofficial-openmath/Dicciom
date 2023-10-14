@@ -31,9 +31,11 @@ def setupSubparser(subparser):
     
     for commandName, commandData in commandDataDictionary.items():
         (commandClass, args, kargs) = commandData
-        commandObjectDictionary[commandName] = commandClass()
-        subparser.add_parser(
+        commandObject = commandClass()
+        commandObjectDictionary[commandName] = commandObject
+        subcommandParser = subparser.add_parser(
             commandName,
             *args,
             **kargs
         )
+        commandObject.prepareArgs(subcommandParser)

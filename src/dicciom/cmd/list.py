@@ -23,10 +23,10 @@ class ListCommand(BaseCommand):
         )
 
     def innerRun(self, group=False, target=None):
+        logger.debug("group", group)
+        logger.debug("target", target)
+
         config = loadConfiguration()
-        allowedStatus = ["official", "private"]
-        if not config["skip_experimental"]: allowedStatus.append("experimental")
-        if not config["skip_obsolete"]: allowedStatus.append("obsolete")
         
         groupedCDs = loadCDsGroupedByCDBase()
         groupedCDsListData = {
@@ -38,10 +38,8 @@ class ListCommand(BaseCommand):
             for base, cds
             in groupedCDs.items()
         }
-        for i, base in enumerate(groupedCDsListData):
-            cdsToBeListed = [cd for cd in groupedCDsListData[base] if cd[1] in allowedStatus]
-            sortedCDs = sorted(cdsToBeListed, key = lambda x: allowedStatus.index(x[1]))
-            self.prettyPrintCDs(base, sortedCDs)
+        for i, (base, cds) in enumerate(groupedCDsListData.items()):
+            self.prettyPrintCDs(base, cds)
             if i < len(groupedCDsListData): print("")
 
     def prettyPrintCDs(self, base, cdGroupedByBase):

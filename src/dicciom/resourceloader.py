@@ -6,13 +6,20 @@ import pathlib
 def loadCDs():
     config = loadConfiguration()
     cdRepositoryPath = config["cd_repository"]
+    
+    allowedStatus = ["official", "private"]
+    if not config["skip_experimental"]: allowedStatus.append("experimental")
+    if not config["skip_obsolete"]: allowedStatus.append("obsolete")
+        
     ocdFiles = pathlib.Path(cdRepositoryPath).rglob("*.ocd")
     cds = []
     for filename in ocdFiles:
         with open(filename) as fh:
             text = fh.read()
-            cds.append(parser.parseXML(text))
-    return cds
+            cd = parser.parseXML(text)
+            if cd.status in allowedStatus:
+                cds.append(cd)
+    return sorted(cds, key = lambda cd: (allowedStatus.index(cd.status), cd.name))
 
 def loadCDsGroupedByCDBase():
     allCDs = loadCDs()

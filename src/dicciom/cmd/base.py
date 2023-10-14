@@ -12,11 +12,5 @@ class BaseCommand():
     def innerRun(self, **kargs):
         raise NotImplementedError(__class__)
 
-    def desc(self):
-        raise NotImplementedError(__class__)
-
-    def help(self):
-        raise NotImplementedError(__class__)
-
     def prepareArgs(self, _):
-        raise NotImplementedError(__class__)
+        pass
